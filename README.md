@@ -1,3 +1,15 @@
+## SIH 2026
+
+**Problem Statement:** SIH26035
+
+**Domain:** Legal Metrology
+
+**Standard:** OIML Recommendation R-76
+
+**Target Instruments:** Non-Automatic Weighing Instruments (NAWI)
+
+**Project:** MarkSure
+
 # MarkSure ⚖️
 
 ### Digital Type-Evaluation & Compliance Platform for OIML R-76 Weighing Instruments

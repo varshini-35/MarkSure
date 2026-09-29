@@ -1,117 +1,354 @@
 # MarkSure ⚖️
 
-**Government OIML R-76 Test Report & Digital Passport System for Non-Automatic Weighing Instruments (NAWI)**
+### Digital Type-Evaluation & Compliance Platform for OIML R-76 Weighing Instruments
 
-MarkSure is an end-to-end digital metrology compliance and evaluation platform built according to the international standard **OIML R 76-1 (Edition 2006)**. It digitizes the testing, verification, auditing, and certification workflow for legal metrology authorities, accredited testing laboratories, and manufacturers.
+MarkSure is an end-to-end digital metrology evaluation and test-report generation platform for **Non-Automatic Weighing Instruments (NAWI)** such as electronic weighing scales, platform scales and other weighing instruments used in trade and industry.
 
----
-
-## 🌟 Key Features & USPs
-
-### 1. 🔍 USP 1 — "What Changed?" Report Version Comparison
-- **Immutable Versioning**: Finalized test reports are never mutated in place. Revisions generate linked versions (`ReportVersion`) with reasons for revision, timestamps, and cryptographic SHA-256 seals.
-- **Deep Metrology Diff Engine**: Field-by-field canonical differential analysis covering:
-  - Instrument parameters & ambient conditions
-  - Every individual test trial (Weighing Performance, Repeatability, Eccentricity, Tare)
-  - Raw calculations ($E$, $E_c$, $MPE$) and compliance verdicts
-- **Differential Audit View**: Interactive red/green side-by-side comparison modal pinpointing exact modified parameters and highlighting critical verdict flips (e.g., `PASS` → `FAIL`).
-
-### 2. 🧪 USP 2 — Rule Impact Simulator (Regulatory Sandboxing)
-- **Draft Rule Configurations**: Regulators can formulate candidate rules, custom MPE multipliers, and repeatability factors without altering active legal standards.
-- **Historical Batch Re-testing**: Re-runs candidate rules against historical verification datasets in a strictly read-only sandbox.
-- **Impact Assessment**: Visualizes before/after compliance shifts, pass rate differentials, and verdict changes.
-- **Safe Export**: PDF and CSV reports watermarked and stamped: *"Simulation Only — Not a Legal Record"*.
-
-### 3. Core Metrology Engines
-- **OIML R-76 Compliant Verification Engine**:
-  - **Weighing Performance Test**: Automatic Maximum Permissible Error (MPE) evaluation based on accuracy class (Class I, II, III, IIII) and verification scale intervals ($e$).
-  - **Repeatability Test**: Multi-series standard deviation and range evaluations under identical test loads.
-  - **Eccentricity (Corner Load) Test**: Validation across quadrants/bearing positions.
-  - **Tare Evaluation**: Verification of additive and subtractive tare influences and zero-setting capabilities.
-- **Explainability & "Show Me Why"**: Mathematical breakdowns comparing observed errors against theoretical tolerances ($m$, $e$, $E$, $E_c$, $MPE$).
-- **Digital Instrument Passports**: Tamper-evident lifecycle tracking for legal metrology instruments, including calibration history, pattern approval numbers, and verification statuses.
+Built around **OIML R 76-1**, MarkSure digitizes the evaluation workflow from instrument registration and test observations to deterministic metrology calculations, compliance analysis, technical review, standardized report generation, report integrity verification and instrument-wise historical tracking.
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+## 🎯 Problem
 
-- **Client**: React 18, TypeScript, Tailwind CSS, Lucide Icons, Vite (Port `5173`)
-- **Server**: Node.js, Express, TypeScript, Multer, PDFKit, QRCode (Port `5001`)
-- **Database & ORM**: Prisma ORM with SQLite (zero-config local `marksure.db`)
-- **Engines**: Deterministic metrology engines (`metrologyDiffEngine.ts`, `ruleSimulationEngine.ts`, `calculationEngine.ts`, `complianceEngine.ts`)
+NAWI type evaluation involves multiple tests, observations, calculations, compliance checks and detailed reporting.
 
----
+When these activities depend on spreadsheets, manual calculations and separate document templates, the process can become fragmented and repetitive. It can also make report consistency, result verification, revision tracking and historical retrieval more difficult.
 
-## ⚡ Quick Start (Local Device)
-
-### Option A: One-Click Launch (Windows)
-
-1. **First-time setup** (installs dependencies, configures `.env`, syncs database, and seeds demo data):
-   ```cmd
-   setup.bat
-   ```
-   *(or `.\setup.ps1` in PowerShell)*
-
-2. **Start the application**:
-   ```cmd
-   start.bat
-   ```
-   *(or `.\start.ps1` in PowerShell)*
-
-This automatically starts the backend server, the frontend client, and opens `http://localhost:5173` in your default browser.
+MarkSure brings these activities together into a single structured digital workflow.
 
 ---
 
-### Option B: Manual Setup
+## 💡 Solution
 
-1. **Install dependencies**:
-   ```bash
-   npm run install:all
-   ```
+MarkSure connects the complete evaluation lifecycle:
 
-2. **Configure Environment**:
-   Ensure `server/.env` exists (default uses SQLite):
-   ```ini
-   DATABASE_URL="file:./marksure.db"
-   PORT=5001
-   CLIENT_URL="http://localhost:5173"
-   JWT_SECRET="marksure_oiml_r76_secure_key_2026"
-   ```
+**Instrument → Evaluation → Test Observations → OIML R-76 Calculations → Compliance → Review → Report → Verification → Digital Passport**
 
-3. **Initialize Database & Seed Data**:
-   ```bash
-   cd server
-   npx prisma db push
-   npx tsx src/seed.ts
-   cd ..
-   ```
-
-4. **Launch Development Servers**:
-   ```bash
-   npm run dev
-   ```
-   - Client Portal: [http://localhost:5173](http://localhost:5173)
-   - Server API: [http://localhost:5001](http://localhost:5001)
+The platform combines deterministic metrology calculations with structured workflows, explainable results, evidence traceability and report governance while keeping technical compliance decisions under authorized human review.
 
 ---
 
-## 🔐 Default Demo Accounts
+# 🚀 Key Features
 
-| Role | Email | Password | Access Scope |
-|---|---|---|---|
-| **System Admin** | `admin@marksure.gov.in` | `Pass@123` | Full access, Rule Simulator, Revisions, Labs, Audit Logs |
-| **Reviewing Officer** | `officer.review@marksure.gov.in` | `Pass@123` | Finalize reports, approve revisions, audit evaluations |
-| **Testing Officer** | `officer.test@marksure.gov.in` | `Pass@123` | Digital test workspace, enter observations, create reports |
+## 1. 🧪 OIML R-76 Metrology Engines
+
+MarkSure provides dedicated calculation and compliance engines for major NAWI evaluation activities, including:
+
+- **Weighing Performance**
+  - Automatic Maximum Permissible Error (MPE) evaluation
+  - Accuracy-class based evaluation
+  - Verification scale interval (`e`) based calculations
+
+- **Repeatability**
+  - Multi-series measurement analysis
+  - Standard deviation
+  - Range evaluation
+
+- **Eccentricity / Corner Load**
+  - Evaluation across different loading positions
+
+- **Tare Evaluation**
+  - Additive and subtractive tare evaluation
+  - Zero-setting behaviour
+
+The calculations are deterministic and rule-driven to ensure reproducible evaluation results.
 
 ---
 
-## 📜 Verification & Audit Endpoints
+## 2. 🔍 "Show Me Why" — Explainable Compliance
 
-- **Digital Passport**: `/passport/:instrumentId`
-- **Reports & Diff Comparison**: `/reports/:reportId`
-- **Rule Impact Simulator**: `/simulator`
-- **Integrity Verification**: `/verify` or via scanned QR code on PDF certificate
+MarkSure does not simply display a PASS or FAIL result.
 
+The platform provides a mathematical explanation connecting:
+
+**Observed Value → Error → Permissible Limit → Applicable Requirement → Compliance Result**
+
+This allows authorized reviewers to understand how a result was obtained and trace it back to the underlying test data.
+
+---
+
+## 3. 📊 "What Changed?" — Report Version Comparison
+
+Finalized reports are preserved through linked versions rather than being silently overwritten.
+
+MarkSure's comparison engine can identify changes across:
+
+- Instrument parameters
+- Ambient conditions
+- Individual test trials
+- Raw calculations
+- Compliance results
+- Report metadata
+
+The system provides a side-by-side differential view and highlights significant changes, including compliance verdict changes.
+
+---
+
+## 4. 🧪 Rule Impact Simulator
+
+The Rule Impact Simulator provides a controlled regulatory sandbox for testing proposed rule configurations.
+
+Users can create candidate configurations and evaluate their potential impact against historical datasets without modifying the active configuration or original evaluation records.
+
+The simulator can visualize:
+
+- Before/after compliance results
+- Pass-rate differences
+- Verdict changes
+- Potential impact across historical evaluations
+
+Simulation outputs are clearly separated from official evaluation records.
+
+---
+
+## 5. 🪪 Digital Instrument Passport
+
+Each instrument can have a connected digital lifecycle record containing information such as:
+
+- Instrument details
+- Evaluation history
+- Calibration-related information
+- Pattern approval information
+- Verification status
+- Associated reports
+- Relevant events
+
+This provides an instrument-wise historical view rather than treating each report as an isolated document.
+
+---
+
+## 6. 🔐 Report Integrity Verification
+
+Finalized reports can be associated with a **SHA-256 cryptographic integrity hash**.
+
+QR-based verification can be used to access the corresponding verification mechanism and check whether an issued report has been modified after finalization.
+
+This provides a tamper-evident integrity mechanism for digitally issued reports.
+
+---
+
+## 7. 📎 Evidence & Traceability
+
+Supporting evidence such as photographs, documents, test setup information and notes can be associated with relevant evaluations and tests.
+
+This helps establish a traceability chain between:
+
+**Evidence → Test → Observation → Calculation → Compliance Result → Report**
+
+---
+
+## 8. 👥 Role-Based Evaluation Workflow
+
+MarkSure supports role-based access for different participants in the evaluation lifecycle.
+
+### Testing Officer
+
+- Create instruments
+- Initiate evaluations
+- Enter test observations
+- Perform tests
+- Attach evidence
+- Create and submit reports
+
+### Reviewing Officer
+
+- Review evaluations
+- Verify observations
+- Inspect calculations
+- Review supporting evidence
+- Approve or return evaluations
+- Finalize reports and revisions
+
+### Administrator
+
+- Manage system-level functions
+- Manage laboratories
+- Manage rule configurations
+- Access audit and oversight functionality
+
+---
+
+## 9. 📄 Automated Report Generation
+
+MarkSure automatically generates structured test reports from verified evaluation data.
+
+Reports can include:
+
+- Instrument information
+- Laboratory information
+- Test conditions
+- Test observations
+- Calculations
+- Compliance results
+- Evidence
+- Reviewer information
+- Evaluation/report identifiers
+- Rule/configuration information
+
+The platform supports PDF and editable report generation to reduce repetitive document preparation.
+
+---
+
+## 10. 🗂️ Repository & Historical Tracking
+
+Completed evaluations and reports are maintained in a centralized repository.
+
+Records can be searched and retrieved using relevant parameters such as:
+
+- Manufacturer
+- Model
+- Serial number
+- Instrument type
+- Accuracy class
+- Evaluation ID
+- Report ID
+- Date
+- Officer
+- Result
+
+This enables instrument-wise historical tracking and faster retrieval of previous evaluations.
+
+---
+
+## 11. 🧾 Audit Trail & Versioning
+
+MarkSure maintains a traceable history of important evaluation and reporting activities.
+
+Report revisions are linked to their previous versions, while relevant actions and timestamps can be retained for audit purposes.
+
+This helps preserve the evolution of an evaluation and its associated reports.
+
+---
+
+# 🔄 End-to-End Workflow
+
+```text
+Instrument Registration
+        ↓
+Evaluation Creation
+        ↓
+Test Conditions
+        ↓
+Test Observations
+        ↓
+OIML R-76 Calculations
+        ↓
+Validation & Compliance
+        ↓
+Evidence & Review
+        ↓
+Report Generation
+        ↓
+Integrity Verification
+        ↓
+Repository & Digital Passport
+        ↓
+Audit & Historical Tracking
+```
+---
+# 🛠️ Tech Stack
+
+| Layer | Technologies |
+|---|---|
+| **Frontend** | React, TypeScript, Vite, Tailwind CSS, React Router, Recharts, Lucide Icons |
+| **State & Resilience** | IndexedDB for continuous form-state persistence and recovery |
+| **Backend** | Node.js, Express, TypeScript, REST APIs |
+| **Authentication** | JWT, Role-Based Access Control (Testing Officer, Reviewing Officer, Admin) |
+| **Database** | PostgreSQL, Prisma ORM |
+| **Local Development** | SQLite with Prisma |
+| **Calculation Engine** | Deterministic, versioned OIML R-76 rule and calculation engine |
+| **Document Generation** | PDFKit, DOCX generation |
+| **Report Formats** | Indian / RRSL and OIML CS templates |
+| **Security & Integrity** | SHA-256 hashing, QR-based report verification, audit trail |
+| **File Handling** | Multer |
+| **Deployment** | Netlify, Render, Neon PostgreSQL |
+---
+
+# 🌐 Live Application
+
+### MarkSure Web Application
+
+**[https://markksuree.netlify.app/](https://markksuree.netlify.app/)**
+
+### Backend API
+
+**[https://marksure-backend.onrender.com/](https://marksure-backend.onrender.com/)**
+
+---
+# 🔑 Demo Login Credentials
+
+Use the following accounts to explore MarkSure's role-based workflow.
+
+| Role | Email | Password |
+|---|---|---|
+| **Testing Officer** | `officer.test@marksure.gov.in` | `Pass@123` |
+| **Reviewing Officer** | `officer.review@marksure.gov.in` | `Pass@123` |
+| **Admin** | `admin@marksure.gov.in` | `Pass@123` |
+
+### Role Overview
+
+- **Testing Officer** — Creates evaluations, enters test observations, uploads evidence and submits evaluations for review.
+- **Reviewing Officer** — Reviews submitted evaluations, verifies calculations/evidence and approves or returns them for correction.
+- **Admin** — Manages the overall system, users and administrative functions.
+
+> **Note:** These credentials are provided for demonstration purposes only.
+
+---
+
+# 🏗️ System Architecture
+
+MarkSure follows a modular full-stack architecture connecting the user interface, evaluation workflow, OIML R-76 calculation engine, reporting layer, security services and database.
+
+```text
+                         USERS
+                           │
+                           ▼
+                ┌────────────────────┐
+                │ MarkSure Frontend  │
+                │ React + TypeScript │
+                │ Vite + Tailwind    │
+                └─────────┬──────────┘
+                          │
+                       REST APIs
+                          │
+                          ▼
+                ┌────────────────────┐
+                │ MarkSure Backend   │
+                │ Node + Express     │
+                │ TypeScript         │
+                └─────────┬──────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ▼                 ▼                 ▼
+ ┌──────────────┐  ┌──────────────┐  ┌────────────────┐
+ │ Authentication│  │ Evaluation   │  │ OIML R-76      │
+ │ & RBAC       │  │ & Test Mgmt  │  │ Rule Engine    │
+ │              │  │              │  │                │
+ │ JWT          │  │ Instruments  │  │ Calculations   │
+ │ Role Access  │  │ Tests        │  │ Validation     │
+ └──────────────┘  │ Observations │  │ Compliance     │
+                   │ Evidence     │  │ Applicability  │
+                   └──────────────┘  └────────────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ▼                 ▼                 ▼
+ ┌──────────────┐  ┌──────────────┐  ┌────────────────┐
+ │ Report       │  │ Integrity &  │  │ Governance &   │
+ │ Generation   │  │ Verification │  │ Versioning     │
+ │              │  │              │  │                │
+ │ PDF          │  │ SHA-256      │  │ Audit Trail    │
+ │ DOCX         │  │ QR Verify    │  │ Report Versions│
+ │ Templates    │  │              │  │ Rule Versions  │
+ └──────────────┘  └──────────────┘  └────────────────┘
+                          │
+                          ▼
+                ┌────────────────────┐
+                │ PostgreSQL         │
+                │ + Prisma ORM       │
+                └────────────────────┘
+```
 ---
 
 ## 📜 License
